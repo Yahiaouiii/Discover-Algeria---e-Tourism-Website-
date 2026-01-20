@@ -1,0 +1,292 @@
+@prefix : <http://www.semanticweb.org/ontologies/etourism#> .
+@prefix ex: <http://www.example.org/etourism/instances#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:BardoMuseum a :Museum ;
+    :description "Museum of prehistory and ethnography" ;
+    :locatedIn ex:Algiers ;
+    :name "Bardo National Museum" ;
+    :openingHours "10:00-18:00" ;
+    :rating "4.2"^^xsd:float .
+
+ex:IbisOran a :Hotel ;
+    :capacity 150 ;
+    :description "Budget-friendly hotel in city center" ;
+    :locatedIn ex:Oran ;
+    :name "Ibis Oran" ;
+    :priceRange "$$" ;
+    :rating "3.8"^^xsd:float .
+
+ex:MadaghBeach a :Beach ;
+    :description "Popular beach near Oran" ;
+    :locatedIn ex:Oran ;
+    :name "Madagh Beach" ;
+    :rating "4.0"^^xsd:float .
+
+ex:Paris a :City ;
+    :locatedIn ex:France ;
+    :name "Paris"@en .
+
+ex:RoyalHotelAlgiers a :Hotel ;
+    :capacity 200 ;
+    :locatedIn ex:Algiers ;
+    :name "Royal Hotel Algiers" ;
+    :priceRange "$$$" ;
+    :rating "4.3"^^xsd:float .
+
+ex:SheratonOran a :Hotel ;
+    :capacity 300 ;
+    :description "5-star hotel with sea views" ;
+    :hasEmail "info@sheraton-oran.com" ;
+    :hasPhone "+213-41-123456" ;
+    :locatedIn ex:Oran ;
+    :name "Sheraton Oran Hotel" ;
+    :nearTo ex:FortSantaCruz ;
+    :offers ex:LeMirage ;
+    :priceRange "$$$" ;
+    :rating "4.6"^^xsd:float .
+
+<http://www.semanticweb.org/ontologies/etourism> a owl:Ontology ;
+    rdfs:label "E-Tourism Ontology"@en ;
+    rdfs:comment "An ontology for modeling tourism-related entities, places, accommodations, and activities"@en .
+
+:Experience a owl:Class ;
+    rdfs:label "Experience"@en ;
+    rdfs:comment "An immersive tourist activity"@en ;
+    rdfs:subClassOf :Activity .
+
+:Hostel a owl:Class ;
+    rdfs:label "Hostel"@en ;
+    rdfs:comment "Budget accommodation with shared facilities"@en ;
+    rdfs:subClassOf :Accommodation .
+
+:Resort a owl:Class ;
+    rdfs:label "Resort"@en ;
+    rdfs:comment "A full-service accommodation with recreational facilities"@en ;
+    rdfs:subClassOf :Accommodation .
+
+:Transportation a owl:Class ;
+    rdfs:label "Transportation"@en ;
+    rdfs:comment "A means of moving tourists"@en ;
+    rdfs:subClassOf :Service .
+
+:address a owl:DatatypeProperty ;
+    rdfs:label "address"@en ;
+    rdfs:comment "Physical address"@en ;
+    rdfs:domain :Place ;
+    rdfs:range xsd:string .
+
+:capacity a owl:DatatypeProperty ;
+    rdfs:label "capacity"@en ;
+    rdfs:comment "Maximum number of guests"@en ;
+    rdfs:domain :Accommodation ;
+    rdfs:range xsd:integer .
+
+:description a owl:DatatypeProperty ;
+    rdfs:label "description"@en ;
+    rdfs:comment "A textual description"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:duration a owl:DatatypeProperty ;
+    rdfs:label "duration"@en ;
+    rdfs:comment "Duration in minutes"@en ;
+    rdfs:domain :Activity ;
+    rdfs:range xsd:integer .
+
+:hasActivity a owl:ObjectProperty ;
+    rdfs:label "has activity"@en ;
+    rdfs:comment "Indicates available activities at a place"@en ;
+    rdfs:domain :Place ;
+    rdfs:range :Activity .
+
+:hasEmail a owl:DatatypeProperty ;
+    rdfs:label "email"@en ;
+    rdfs:comment "Email contact"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:hasPhone a owl:DatatypeProperty ;
+    rdfs:label "phone"@en ;
+    rdfs:comment "Phone contact"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:locatedIn a owl:ObjectProperty ;
+    rdfs:label "located in"@en ;
+    rdfs:comment "Indicates that a place is within another place"@en ;
+    rdfs:domain :Place ;
+    rdfs:range :Place .
+
+:name a owl:DatatypeProperty ;
+    rdfs:label "name"@en ;
+    rdfs:comment "The name of an entity"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:nearTo a owl:ObjectProperty ;
+    rdfs:label "near to"@en ;
+    rdfs:comment "Indicates proximity between places"@en ;
+    rdfs:domain :Place ;
+    rdfs:range :Place .
+
+:offers a owl:ObjectProperty ;
+    rdfs:label "offers"@en ;
+    rdfs:comment "Indicates that an accommodation provides a service"@en ;
+    rdfs:domain :Accommodation ;
+    rdfs:range :Service .
+
+:openingHours a owl:DatatypeProperty ;
+    rdfs:label "opening hours"@en ;
+    rdfs:comment "Operating hours"@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( :TouristAttraction :Restaurant ) ] ;
+    rdfs:range xsd:string .
+
+:price a owl:DatatypeProperty ;
+    rdfs:label "price"@en ;
+    rdfs:comment "Price in currency units"@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( :Activity :Accommodation ) ] ;
+    rdfs:range xsd:float .
+
+:priceRange a owl:DatatypeProperty ;
+    rdfs:label "price range"@en ;
+    rdfs:comment "Price category (e.g., $, $$, $$$)"@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( :Accommodation :Restaurant ) ] ;
+    rdfs:range xsd:string .
+
+:providedBy a owl:ObjectProperty ;
+    rdfs:label "provided by"@en ;
+    rdfs:comment "Indicates which service provider offers an activity"@en ;
+    rdfs:domain :Activity ;
+    rdfs:range :Service .
+
+:rating a owl:DatatypeProperty ;
+    rdfs:label "rating"@en ;
+    rdfs:comment "Rating score (0-5)"@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( :Accommodation :Restaurant :TouristAttraction ) ] ;
+    rdfs:range xsd:float .
+
+ex:FortSantaCruz a :Monument ;
+    :description "Historic fortress overlooking Oran bay" ;
+    :locatedIn ex:Oran ;
+    :name "Fort Santa Cruz" ;
+    :openingHours "9:00-17:00" ;
+    :rating "4.5"^^xsd:float .
+
+ex:France a :Country ;
+    :name "France"@en .
+
+ex:LeMirage a :Restaurant ;
+    :description "Seafood restaurant with Mediterranean cuisine" ;
+    :locatedIn ex:Oran ;
+    :name "Le Mirage" ;
+    :openingHours "12:00-23:00" ;
+    :priceRange "$$" ;
+    :rating "4.4"^^xsd:float .
+
+ex:OranCityTour a :Tour ;
+    :description "Guided tour of Oran's historical sites" ;
+    :duration 180 ;
+    :name "Oran City Tour" ;
+    :price "50.0"^^xsd:float .
+
+ex:OranFestival a :Event ;
+    :description "Annual music festival featuring Rai music" ;
+    :duration 240 ;
+    :name "Oran Music Festival" ;
+    :price "30.0"^^xsd:float .
+
+:Beach a owl:Class ;
+    rdfs:label "Beach"@en ;
+    rdfs:comment "A sandy or pebbly shore"@en ;
+    rdfs:subClassOf :NaturalSite .
+
+:Event a owl:Class ;
+    rdfs:label "Event"@en ;
+    rdfs:comment "A scheduled happening or festival"@en ;
+    rdfs:subClassOf :Activity .
+
+:Monument a owl:Class ;
+    rdfs:label "Monument"@en ;
+    rdfs:comment "A structure of historical or cultural significance"@en ;
+    rdfs:subClassOf :TouristAttraction .
+
+:Museum a owl:Class ;
+    rdfs:label "Museum"@en ;
+    rdfs:comment "A building housing artifacts and exhibitions"@en ;
+    rdfs:subClassOf :TouristAttraction .
+
+:NaturalSite a owl:Class ;
+    rdfs:label "Natural Site"@en ;
+    rdfs:comment "A natural landmark or protected area"@en ;
+    rdfs:subClassOf :TouristAttraction .
+
+:Tour a owl:Class ;
+    rdfs:label "Tour"@en ;
+    rdfs:comment "A guided visit to places of interest"@en ;
+    rdfs:subClassOf :Activity .
+
+ex:Algeria a :Country ;
+    :description "North African country with Mediterranean coastline" ;
+    :name "Algeria"@en .
+
+ex:Algiers a :City ;
+    :description "Capital and largest city of Algeria" ;
+    :locatedIn ex:Algeria ;
+    :name "Algiers"@en .
+
+:Country a owl:Class ;
+    rdfs:label "Country"@en ;
+    rdfs:comment "A nation state"@en ;
+    rdfs:subClassOf :Place .
+
+:City a owl:Class ;
+    rdfs:label "City"@en ;
+    rdfs:comment "An urban settlement"@en ;
+    rdfs:subClassOf :Place .
+
+:Hotel a owl:Class ;
+    rdfs:label "Hotel"@en ;
+    rdfs:comment "A commercial establishment providing lodging"@en ;
+    rdfs:subClassOf :Accommodation .
+
+:Restaurant a owl:Class ;
+    rdfs:label "Restaurant"@en ;
+    rdfs:comment "A place where meals are served"@en ;
+    rdfs:subClassOf :Service .
+
+:Service a owl:Class ;
+    rdfs:label "Service"@en ;
+    rdfs:comment "A service provided to tourists"@en .
+
+ex:Oran a :City ;
+    :description "Major port city in northwest Algeria" ;
+    :hasActivity ex:OranCityTour,
+        ex:OranFestival ;
+    :locatedIn ex:Algeria ;
+    :name "Oran"@en .
+
+:TouristAttraction a owl:Class ;
+    rdfs:label "Tourist Attraction"@en ;
+    rdfs:comment "A place of interest for tourists"@en ;
+    rdfs:subClassOf :Place .
+
+:Activity a owl:Class ;
+    rdfs:label "Activity"@en ;
+    rdfs:comment "An activity or experience available to tourists"@en .
+
+:Accommodation a owl:Class ;
+    rdfs:label "Accommodation"@en ;
+    rdfs:comment "A place where tourists can stay"@en .
+
+:Place a owl:Class ;
+    rdfs:label "Place"@en ;
+    rdfs:comment "A geographic location or point of interest"@en .
+

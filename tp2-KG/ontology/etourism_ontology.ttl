@@ -1,0 +1,227 @@
+@prefix : <http://www.semanticweb.org/ontologies/etourism#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://www.semanticweb.org/ontologies/etourism> rdf:type owl:Ontology ;
+    rdfs:label "E-Tourism Ontology"@en ;
+    rdfs:comment "An ontology for modeling tourism-related entities, places, accommodations, and activities"@en .
+
+#################################################################
+#    Classes - Hierarchical Structure
+#################################################################
+
+### Core Classes
+
+:Place rdf:type owl:Class ;
+    rdfs:label "Place"@en ;
+    rdfs:comment "A geographic location or point of interest"@en .
+
+:Accommodation rdf:type owl:Class ;
+    rdfs:label "Accommodation"@en ;
+    rdfs:comment "A place where tourists can stay"@en .
+
+:Activity rdf:type owl:Class ;
+    rdfs:label "Activity"@en ;
+    rdfs:comment "An activity or experience available to tourists"@en .
+
+:Service rdf:type owl:Class ;
+    rdfs:label "Service"@en ;
+    rdfs:comment "A service provided to tourists"@en .
+
+### Place Subclasses
+
+:City rdf:type owl:Class ;
+    rdfs:subClassOf :Place ;
+    rdfs:label "City"@en ;
+    rdfs:comment "An urban settlement"@en .
+
+:Country rdf:type owl:Class ;
+    rdfs:subClassOf :Place ;
+    rdfs:label "Country"@en ;
+    rdfs:comment "A nation state"@en .
+
+:TouristAttraction rdf:type owl:Class ;
+    rdfs:subClassOf :Place ;
+    rdfs:label "Tourist Attraction"@en ;
+    rdfs:comment "A place of interest for tourists"@en .
+
+:Museum rdf:type owl:Class ;
+    rdfs:subClassOf :TouristAttraction ;
+    rdfs:label "Museum"@en ;
+    rdfs:comment "A building housing artifacts and exhibitions"@en .
+
+:Monument rdf:type owl:Class ;
+    rdfs:subClassOf :TouristAttraction ;
+    rdfs:label "Monument"@en ;
+    rdfs:comment "A structure of historical or cultural significance"@en .
+
+:NaturalSite rdf:type owl:Class ;
+    rdfs:subClassOf :TouristAttraction ;
+    rdfs:label "Natural Site"@en ;
+    rdfs:comment "A natural landmark or protected area"@en .
+
+:Beach rdf:type owl:Class ;
+    rdfs:subClassOf :NaturalSite ;
+    rdfs:label "Beach"@en ;
+    rdfs:comment "A sandy or pebbly shore"@en .
+
+### Accommodation Subclasses
+
+:Hotel rdf:type owl:Class ;
+    rdfs:subClassOf :Accommodation ;
+    rdfs:label "Hotel"@en ;
+    rdfs:comment "A commercial establishment providing lodging"@en .
+
+:Hostel rdf:type owl:Class ;
+    rdfs:subClassOf :Accommodation ;
+    rdfs:label "Hostel"@en ;
+    rdfs:comment "Budget accommodation with shared facilities"@en .
+
+:Resort rdf:type owl:Class ;
+    rdfs:subClassOf :Accommodation ;
+    rdfs:label "Resort"@en ;
+    rdfs:comment "A full-service accommodation with recreational facilities"@en .
+
+### Activity Subclasses
+
+:Tour rdf:type owl:Class ;
+    rdfs:subClassOf :Activity ;
+    rdfs:label "Tour"@en ;
+    rdfs:comment "A guided visit to places of interest"@en .
+
+:Event rdf:type owl:Class ;
+    rdfs:subClassOf :Activity ;
+    rdfs:label "Event"@en ;
+    rdfs:comment "A scheduled happening or festival"@en .
+
+:Experience rdf:type owl:Class ;
+    rdfs:subClassOf :Activity ;
+    rdfs:label "Experience"@en ;
+    rdfs:comment "An immersive tourist activity"@en .
+
+### Service Subclasses
+
+:Restaurant rdf:type owl:Class ;
+    rdfs:subClassOf :Service ;
+    rdfs:label "Restaurant"@en ;
+    rdfs:comment "A place where meals are served"@en .
+
+:Transportation rdf:type owl:Class ;
+    rdfs:subClassOf :Service ;
+    rdfs:label "Transportation"@en ;
+    rdfs:comment "A means of moving tourists"@en .
+
+#################################################################
+#    Object Properties - Relationships
+#################################################################
+
+:locatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Place ;
+    rdfs:range :Place ;
+    rdfs:label "located in"@en ;
+    rdfs:comment "Indicates that a place is within another place"@en .
+
+:offers rdf:type owl:ObjectProperty ;
+    rdfs:domain :Accommodation ;
+    rdfs:range :Service ;
+    rdfs:label "offers"@en ;
+    rdfs:comment "Indicates that an accommodation provides a service"@en .
+
+:hasActivity rdf:type owl:ObjectProperty ;
+    rdfs:domain :Place ;
+    rdfs:range :Activity ;
+    rdfs:label "has activity"@en ;
+    rdfs:comment "Indicates available activities at a place"@en .
+
+:nearTo rdf:type owl:ObjectProperty ;
+    rdfs:domain :Place ;
+    rdfs:range :Place ;
+    rdfs:label "near to"@en ;
+    rdfs:comment "Indicates proximity between places"@en .
+
+:providedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Activity ;
+    rdfs:range :Service ;
+    rdfs:label "provided by"@en ;
+    rdfs:comment "Indicates which service provider offers an activity"@en .
+
+#################################################################
+#    Datatype Properties - Attributes
+#################################################################
+
+:name rdf:type owl:DatatypeProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string ;
+    rdfs:label "name"@en ;
+    rdfs:comment "The name of an entity"@en .
+
+:description rdf:type owl:DatatypeProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string ;
+    rdfs:label "description"@en ;
+    rdfs:comment "A textual description"@en .
+
+:rating rdf:type owl:DatatypeProperty ;
+    rdfs:domain [ rdf:type owl:Class ;
+                  owl:unionOf ( :Accommodation :Restaurant :TouristAttraction )
+                ] ;
+    rdfs:range xsd:float ;
+    rdfs:label "rating"@en ;
+    rdfs:comment "Rating score (0-5)"@en .
+
+:priceRange rdf:type owl:DatatypeProperty ;
+    rdfs:domain [ rdf:type owl:Class ;
+                  owl:unionOf ( :Accommodation :Restaurant )
+                ] ;
+    rdfs:range xsd:string ;
+    rdfs:label "price range"@en ;
+    rdfs:comment "Price category (e.g., $, $$, $$$)"@en .
+
+:capacity rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Accommodation ;
+    rdfs:range xsd:integer ;
+    rdfs:label "capacity"@en ;
+    rdfs:comment "Maximum number of guests"@en .
+
+:hasEmail rdf:type owl:DatatypeProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string ;
+    rdfs:label "email"@en ;
+    rdfs:comment "Email contact"@en .
+
+:hasPhone rdf:type owl:DatatypeProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string ;
+    rdfs:label "phone"@en ;
+    rdfs:comment "Phone contact"@en .
+
+:address rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Place ;
+    rdfs:range xsd:string ;
+    rdfs:label "address"@en ;
+    rdfs:comment "Physical address"@en .
+
+:openingHours rdf:type owl:DatatypeProperty ;
+    rdfs:domain [ rdf:type owl:Class ;
+                  owl:unionOf ( :TouristAttraction :Restaurant )
+                ] ;
+    rdfs:range xsd:string ;
+    rdfs:label "opening hours"@en ;
+    rdfs:comment "Operating hours"@en .
+
+:duration rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Activity ;
+    rdfs:range xsd:integer ;
+    rdfs:label "duration"@en ;
+    rdfs:comment "Duration in minutes"@en .
+
+:price rdf:type owl:DatatypeProperty ;
+    rdfs:domain [ rdf:type owl:Class ;
+                  owl:unionOf ( :Activity :Accommodation )
+                ] ;
+    rdfs:range xsd:float ;
+    rdfs:label "price"@en ;
+    rdfs:comment "Price in currency units"@en .
